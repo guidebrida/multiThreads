@@ -56,9 +56,11 @@ public class BuscarPessoaNoArquivoComThreads {
         BufferedReader leitor = new BufferedReader(new FileReader(arquivo));
         String linha = leitor.readLine();
         int numLinha = 1;
-        while (linha != null) {
+        Boolean achouNome = false;
+        while (linha != null  &!achouNome) {
             if (linha.contains(nomeBusca)) {
                 System.out.println("Arquivo: " + arquivo.getName() + ", linha: " + numLinha + ", texto: " + linha);
+                achouNome = true;
             }
             linha = leitor.readLine();
             numLinha++;

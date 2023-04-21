@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class BuscarPessoaNoArquivo {
 
-    public static void buscaNome(File arquivo, String nomeBusca) throws IOException {
+    public static void buscaNome(File arquivo, String nomeBusca) throws IOException, InterruptedException {
         BufferedReader leitor = new BufferedReader(new FileReader(arquivo));
         String linha = leitor.readLine();
         int numLinha = 1;
@@ -23,11 +23,12 @@ public class BuscarPessoaNoArquivo {
             }
             linha = leitor.readLine();
             numLinha++;
+            Thread.sleep(1); // adiciona um timeout de 1 milissegundo
         }
         leitor.close();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Digite o nome da pessoa que voce procura?");
         String nomeBusca = scanner.nextLine();
