@@ -11,13 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static oneThread.BuscarPessoaNoArquivoComUmaThread.nomeDaPessoa;
+
 public class BuscarPessoaNoArquivoComThreads {
 
     private static final int NUM_THREADS = 2;
 
     public static void main(String[] args) throws InterruptedException, IOException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Digite o nome da pessoa que você procura:");
+        System.out.println(nomeDaPessoa);
         String nomeBusca = scanner.nextLine();
         File diretorio = new File("C:\\Users\\guilh\\Documents\\Faculdade\\comp paralela e distruida\\thread\\src\\dataset/");
         File[] arquivos = diretorio.listFiles((dir, nome) -> nome.endsWith(".txt"));

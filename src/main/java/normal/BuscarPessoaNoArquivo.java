@@ -9,6 +9,8 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import static oneThread.BuscarPessoaNoArquivoComUmaThread.nomeDaPessoa;
+
 public class BuscarPessoaNoArquivo {
 
     public static void buscaNome(File arquivo, String nomeBusca) throws IOException, InterruptedException {
@@ -30,7 +32,7 @@ public class BuscarPessoaNoArquivo {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Digite o nome da pessoa que voce procura?");
+        System.out.println(nomeDaPessoa);
         String nomeBusca = scanner.nextLine();
         File diretorio = new File("C:\\Users\\guilh\\Documents\\Faculdade\\comp paralela e distruida\\thread\\src\\dataset/");
         File[] arquivos = diretorio.listFiles((dir, nome) -> nome.endsWith(".txt"));
