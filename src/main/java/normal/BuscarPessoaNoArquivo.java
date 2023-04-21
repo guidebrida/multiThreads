@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class BuscarPessoaNoArquivo {
@@ -14,9 +15,11 @@ public class BuscarPessoaNoArquivo {
         BufferedReader leitor = new BufferedReader(new FileReader(arquivo));
         String linha = leitor.readLine();
         int numLinha = 1;
-        while (linha != null) {
+        Boolean achouNome = false;
+        while (linha != null &!achouNome) {
             if (linha.contains(nomeBusca)) {
-                System.out.println("Arquivo: " + arquivo.getName() + ", linha: " + numLinha + ", texto: " + linha);
+                System.out.println("Arquivo: " + arquivo.getName() + ", linha: " + numLinha + ", texto: " + linha);//quando encontrar parar a busca
+                 achouNome = true;
             }
             linha = leitor.readLine();
             numLinha++;
@@ -30,6 +33,7 @@ public class BuscarPessoaNoArquivo {
         String nomeBusca = scanner.nextLine();
         File diretorio = new File("C:\\Users\\guilh\\Documents\\Faculdade\\comp paralela e distruida\\thread\\src\\dataset/");
         File[] arquivos = diretorio.listFiles((dir, nome) -> nome.endsWith(".txt"));
+        Arrays.sort(arquivos);
         Instant inicio = Instant.now();
         for (File arquivo : arquivos) {
             buscaNome(arquivo, nomeBusca);
