@@ -25,7 +25,7 @@ public class BuscarPessoaNoArquivoComUmaThread {
 
         Instant fim = Instant.now();
         Duration duracao = Duration.between(inicio, fim);
-        System.out.println(tempoTotal + duracao.toMillis() + "ms");
+        System.out.println(tempoTotal + duracao.getSeconds() + "s");
     }
 
     public static void buscaNome(File arquivo, String nomeBusca) throws IOException, InterruptedException {

@@ -16,6 +16,7 @@ import static oneThread.BuscarPessoaNoArquivoComUmaThread.nomeDaPessoa;
 public class BuscarPessoaNoArquivoComThreads {
 
     private static final int NUM_THREADS = 2;
+    private static volatile boolean achouNome = false; // Variável de controle para indicar se o nome foi encontrado
 
     public static void main(String[] args) throws InterruptedException, IOException {
         Scanner scanner = new Scanner(System.in);
@@ -29,25 +30,25 @@ public class BuscarPessoaNoArquivoComThreads {
 
         List<Thread> threads = new ArrayList<>();
 
-        // Thread de busca de cima para baixo
         Thread thread1 = new Thread(() -> {
             for (int i = 0; i < numArquivosPorThread; i++) {
                 try {
                     buscaNomeCimaBaixo(arquivos[i], nomeBusca);
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });
         thread1.start();
         threads.add(thread1);
 
-        // Thread de busca de baixo para cima
         Thread thread2 = new Thread(() -> {
             for (int i = arquivos.length - 1; i >= arquivos.length - numArquivosPorThread; i--) {
                 try {
                     buscaNomeBaixoCima(arquivos[i], nomeBusca);
-                } catch (IOException e) {
+                } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
                 }
             }
@@ -61,14 +62,13 @@ public class BuscarPessoaNoArquivoComThreads {
 
         Instant fim = Instant.now();
         Duration duracao = Duration.between(inicio, fim);
-        System.out.println("Tempo total de execução: " + duracao.toMillis() + "ms");
+        System.out.println("Tempo total de execução: " + duracao.getSeconds() + "s");
     }
 
-    public static void buscaNomeCimaBaixo(File arquivo, String nomeBusca) throws IOException {
+    public static void buscaNomeCimaBaixo(File arquivo, String nomeBusca) throws IOException, InterruptedException {
         BufferedReader leitor = new BufferedReader(new FileReader(arquivo));
         String linha = leitor.readLine();
         int numLinha = 1;
-        Boolean achouNome = false;
         while (linha != null & !achouNome) {
             if (linha.contains(nomeBusca)) {
                 System.out.println("Thread 1");
@@ -79,13 +79,14 @@ public class BuscarPessoaNoArquivoComThreads {
             numLinha++;
         }
         leitor.close();
+        Thread.sleep(1);
     }
 
-    public static void buscaNomeBaixoCima(File arquivo, String nomeBusca) throws IOException {
+    public static void buscaNomeBaixoCima(File arquivo, String nomeBusca) throws IOException, InterruptedException {
         BufferedReader leitor = new BufferedReader(new FileReader(arquivo));
         String linha = leitor.readLine();
         int numLinha = 1;
-        Boolean achouNome = false;
+      //  Boolean achouNome = false;
         while (linha != null & !achouNome) {
             if (linha.contains(nomeBusca)) {
                 System.out.println("Thread 2");
@@ -94,6 +95,7 @@ public class BuscarPessoaNoArquivoComThreads {
             }
             linha = leitor.readLine();
             numLinha++;
+            Thread.sleep(1);
         }
         leitor.close();
     }

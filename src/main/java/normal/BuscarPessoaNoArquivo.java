@@ -44,7 +44,7 @@ public class BuscarPessoaNoArquivo {
         }
         Instant fim = Instant.now();
         Duration duracao = Duration.between(inicio, fim);
-        System.out.println(tempoTotal + duracao.toMillis() + "ms");
+        System.out.println(tempoTotal + duracao.getSeconds() + "s");
     }
 }
 
