@@ -9,8 +9,9 @@ import java.util.Scanner;
 public class BuscarPessoaNoArquivoComUmaThread {
 
     public static final String nomeDaPessoa = "Digite o nome da pessoa que você procura:";
+    public static final String tempoTotal = "Tempo total de execução: ";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         Scanner scanner = new Scanner(System.in);
         System.out.println(nomeDaPessoa);
         String nomeBusca = scanner.nextLine();
@@ -24,21 +25,22 @@ public class BuscarPessoaNoArquivoComUmaThread {
 
         Instant fim = Instant.now();
         Duration duracao = Duration.between(inicio, fim);
-        System.out.println("Tempo total de execução: " + duracao.toMillis() + "ms");
+        System.out.println(tempoTotal + duracao.toMillis() + "ms");
     }
 
-    public static void buscaNome(File arquivo, String nomeBusca) throws IOException {
+    public static void buscaNome(File arquivo, String nomeBusca) throws IOException, InterruptedException {
         BufferedReader leitor = new BufferedReader(new FileReader(arquivo));
         String linha = leitor.readLine();
         int numLinha = 1;
         Boolean achouNome = false;
-        while (linha != null  &!achouNome) {
+        while (linha != null  & !achouNome) {
             if (linha.contains(nomeBusca)) {
                 System.out.println("Arquivo: " + arquivo.getName() + ", linha: " + numLinha + ", texto: " + linha);
                 achouNome = true;
             }
             linha = leitor.readLine();
             numLinha++;
+            Thread.sleep(1);
         }
         leitor.close();
     }

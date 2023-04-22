@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import static oneThread.BuscarPessoaNoArquivoComUmaThread.nomeDaPessoa;
+import static oneThread.BuscarPessoaNoArquivoComUmaThread.tempoTotal;
 
 public class BuscarPessoaNoArquivo {
 
@@ -25,7 +26,7 @@ public class BuscarPessoaNoArquivo {
             }
             linha = leitor.readLine();
             numLinha++;
-            Thread.sleep(1); // adiciona um timeout de 1 milissegundo
+         //   Thread.sleep(1); // adiciona um timeout de 1 milissegundo
         }
         leitor.close();
     }
@@ -43,7 +44,7 @@ public class BuscarPessoaNoArquivo {
         }
         Instant fim = Instant.now();
         Duration duracao = Duration.between(inicio, fim);
-        System.out.println("Tempo total de execução: " + duracao.toMillis() + "ms");
+        System.out.println(tempoTotal + duracao.toMillis() + "ms");
     }
 }
 
