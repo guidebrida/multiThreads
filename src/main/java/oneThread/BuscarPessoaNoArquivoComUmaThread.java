@@ -5,11 +5,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import static multithread.BuscarPessoaNoArquivoComThreads.buscaNomeCimaBaixo;
+
 public class BuscarPessoaNoArquivoComUmaThread {
 
     public static final String nomeDaPessoa = "Digite o nome da pessoa que você procura:";
     public static final String tempoTotal = "Tempo total de execução: ";
+
+    private static volatile boolean achouNome = false; // Variável de controle para indicar se o nome foi encontrado
+
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Scanner scanner = new Scanner(System.in);
@@ -19,8 +27,28 @@ public class BuscarPessoaNoArquivoComUmaThread {
         File[] arquivos = diretorio.listFiles((dir, nome) -> nome.endsWith(".txt"));
         Instant inicio = Instant.now();
 
-        for (File arquivo : arquivos) {
-            buscaNome(arquivo, nomeBusca);
+        List<Thread> threads = new ArrayList<>();
+
+        Thread thread1 = new Thread(() -> {
+            for (int i = 0; i <= arquivos.length; i++) {
+                if (!achouNome){
+                    try {
+                        buscaNome(arquivos[i], nomeBusca);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                return;
+
+            }
+        });
+
+        thread1.start();
+        threads.add(thread1);
+        for (Thread thread : threads) {
+            thread.join();
         }
 
         Instant fim = Instant.now();
@@ -32,8 +60,7 @@ public class BuscarPessoaNoArquivoComUmaThread {
         BufferedReader leitor = new BufferedReader(new FileReader(arquivo));
         String linha = leitor.readLine();
         int numLinha = 1;
-        Boolean achouNome = false;
-        while (linha != null  & !achouNome) {
+        while (linha != null  && !achouNome) {
             if (linha.contains(nomeBusca)) {
                 System.out.println("Arquivo: " + arquivo.getName() + ", linha: " + numLinha + ", texto: " + linha);
                 achouNome = true;

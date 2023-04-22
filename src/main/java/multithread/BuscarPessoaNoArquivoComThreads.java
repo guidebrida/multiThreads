@@ -32,27 +32,35 @@ public class BuscarPessoaNoArquivoComThreads {
 
         Thread thread1 = new Thread(() -> {
             for (int i = 0; i < numArquivosPorThread; i++) {
-                try {
-                    buscaNomeCimaBaixo(arquivos[i], nomeBusca);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                if (!achouNome) {
+                    try {
+                        buscaNomeCimaBaixo(arquivos[i], nomeBusca);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
+                return;
             }
         });
+
         thread1.start();
         threads.add(thread1);
 
         Thread thread2 = new Thread(() -> {
             for (int i = arquivos.length - 1; i >= arquivos.length - numArquivosPorThread; i--) {
-                try {
-                    buscaNomeBaixoCima(arquivos[i], nomeBusca);
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
+                if (!achouNome) {
+                    try {
+                        buscaNomeBaixoCima(arquivos[i], nomeBusca);
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+                return;
             }
         });
+
         thread2.start();
         threads.add(thread2);
 
@@ -77,17 +85,16 @@ public class BuscarPessoaNoArquivoComThreads {
             }
             linha = leitor.readLine();
             numLinha++;
+        //    Thread.sleep(1);
         }
         leitor.close();
-        Thread.sleep(1);
     }
 
     public static void buscaNomeBaixoCima(File arquivo, String nomeBusca) throws IOException, InterruptedException {
         BufferedReader leitor = new BufferedReader(new FileReader(arquivo));
         String linha = leitor.readLine();
         int numLinha = 1;
-      //  Boolean achouNome = false;
-        while (linha != null & !achouNome) {
+        while (linha != null && !achouNome) {
             if (linha.contains(nomeBusca)) {
                 System.out.println("Thread 2");
                 System.out.println("Arquivo: " + arquivo.getName() + ", linha: " + numLinha + ", texto: " + linha);

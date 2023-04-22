@@ -19,14 +19,14 @@ public class BuscarPessoaNoArquivo {
         String linha = leitor.readLine();
         int numLinha = 1;
         Boolean achouNome = false;
-        while (linha != null &!achouNome) {
+        while (linha != null && !achouNome) {
             if (linha.contains(nomeBusca)) {
                 System.out.println("Arquivo: " + arquivo.getName() + ", linha: " + numLinha + ", texto: " + linha);//quando encontrar parar a busca
                  achouNome = true;
             }
             linha = leitor.readLine();
             numLinha++;
-         //   Thread.sleep(1); // adiciona um timeout de 1 milissegundo
+            Thread.sleep(1);
         }
         leitor.close();
     }
