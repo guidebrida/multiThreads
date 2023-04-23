@@ -11,18 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import static oneThread.BuscarPessoaNoArquivoComUmaThread.nomeDaPessoa;
+import static oneThread.BuscarPessoaNoArquivoComUmaThread.*;
 
 public class BuscarPessoaNoArquivoComThreads {
 
     private static final int NUM_THREADS = 2;
-    private static volatile boolean achouNome = false; // Variável de controle para indicar se o nome foi encontrado
+    private static volatile boolean achouNome = false;
 
     public static void main(String[] args) throws InterruptedException, IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println(nomeDaPessoa);
         String nomeBusca = scanner.nextLine();
-        File diretorio = new File("C:\\Users\\guilh\\Documents\\Faculdade\\comp paralela e distruida\\thread\\src\\dataset/");
+        File diretorio = new File(urlBase);
         File[] arquivos = diretorio.listFiles((dir, nome) -> nome.endsWith(".txt"));
         Instant inicio = Instant.now();
 
@@ -69,6 +69,9 @@ public class BuscarPessoaNoArquivoComThreads {
 
         Instant fim = Instant.now();
         Duration duracao = Duration.between(inicio, fim);
+        if (!achouNome) {
+            System.out.println(arquivoNaoEncontrado);
+        }
         System.out.println("Tempo total de execução: " + duracao.getSeconds() + "s");
     }
 
@@ -84,7 +87,7 @@ public class BuscarPessoaNoArquivoComThreads {
             }
             linha = leitor.readLine();
             numLinha++;
-        //    Thread.sleep(1);
+            Thread.sleep(1);
         }
         leitor.close();
     }

@@ -17,14 +17,17 @@ public class BuscarPessoaNoArquivoComUmaThread {
     public static final String nomeDaPessoa = "Digite o nome da pessoa que você procura:";
     public static final String tempoTotal = "Tempo total de execução: ";
 
+    public static final String urlBase = "C:\\\\Users\\\\guilh\\\\Documents\\\\Faculdade\\\\comp paralela e distruida\\\\thread\\\\src\\\\dataset/";
+
     private static volatile boolean achouNome = false; // Variável de controle para indicar se o nome foi encontrado
 
+    public static final String arquivoNaoEncontrado = "Arquivo não encontrado";
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Scanner scanner = new Scanner(System.in);
         System.out.println(nomeDaPessoa);
         String nomeBusca = scanner.nextLine();
-        File diretorio = new File("C:\\Users\\guilh\\Documents\\Faculdade\\comp paralela e distruida\\thread\\src\\dataset/");
+        File diretorio = new File(urlBase);
         File[] arquivos = diretorio.listFiles((dir, nome) -> nome.endsWith(".txt"));
         Instant inicio = Instant.now();
 
@@ -53,6 +56,9 @@ public class BuscarPessoaNoArquivoComUmaThread {
 
         Instant fim = Instant.now();
         Duration duracao = Duration.between(inicio, fim);
+        if (!achouNome) {
+            System.out.println(arquivoNaoEncontrado);
+        }
         System.out.println(tempoTotal + duracao.getSeconds() + "s");
     }
 
