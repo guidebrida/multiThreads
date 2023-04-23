@@ -57,7 +57,6 @@ public class BuscarPessoaNoArquivoComThreads {
                         e.printStackTrace();
                     }
                 }
-                return;
             }
         });
 

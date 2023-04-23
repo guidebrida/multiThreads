@@ -1,4 +1,5 @@
 package oneThread;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -31,7 +32,7 @@ public class BuscarPessoaNoArquivoComUmaThread {
 
         Thread thread1 = new Thread(() -> {
             for (int i = 0; i <= arquivos.length; i++) {
-                if (!achouNome){
+                if (!achouNome) {
                     try {
                         buscaNome(arquivos[i], nomeBusca);
                     } catch (IOException e) {
@@ -40,7 +41,6 @@ public class BuscarPessoaNoArquivoComUmaThread {
                         throw new RuntimeException(e);
                     }
                 }
-                return;
 
             }
         });
@@ -60,7 +60,7 @@ public class BuscarPessoaNoArquivoComUmaThread {
         BufferedReader leitor = new BufferedReader(new FileReader(arquivo));
         String linha = leitor.readLine();
         int numLinha = 1;
-        while (linha != null  && !achouNome) {
+        while (linha != null && !achouNome) {
             if (linha.contains(nomeBusca)) {
                 System.out.println("Arquivo: " + arquivo.getName() + ", linha: " + numLinha + ", texto: " + linha);
                 achouNome = true;
